@@ -7,6 +7,9 @@ import Button from './Button';
 import PatientTable from './PatientTable';
 import './ExcelConverter.css';
 
+// API URL from environment variable with fallback
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
 // Hook personalizado para procesamiento de imágenes
 const useImageProcessor = () => {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -24,7 +27,7 @@ const useImageProcessor = () => {
         reader.readAsDataURL(file);
       });
 
-      const response = await fetch('http://localhost:3001/api/process-image', {
+      const response = await fetch(`${API_URL}/api/process-image`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
