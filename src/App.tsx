@@ -1,4 +1,4 @@
-import ExcelConverter from './components/ExcelConverter.jsx'
+import ExcelConverter from './components/ExcelConverter'
 import './App.css'
 
 function App() {
