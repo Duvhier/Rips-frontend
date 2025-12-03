@@ -8,93 +8,40 @@ const Button = ({
   size = 'md',
   isLoading = false,
   icon: Icon,
-  iconPosition = 'left',
   disabled = false,
-  fullWidth = false,
   className = '',
-  type = 'button',
   ...props
 }) => {
-  // Clases CSS según variantes
   const variantClasses = {
     primary: 'button-primary',
     outline: 'button-outline',
     ghost: 'button-ghost',
     success: 'button-success',
-    error: 'button-error',
-    warning: 'button-warning'
+    error: 'button-error'
   };
 
-  // Clases CSS según tamaño
   const sizeClasses = {
-    xs: 'button-xs',
     sm: 'button-sm',
     md: 'button-md',
-    lg: 'button-lg',
-    xl: 'button-xl'
+    lg: 'button-lg'
   };
-
-  // Tamaños de iconos según tamaño del botón
-  const iconSizeMap = {
-    xs: 14,
-    sm: 16,
-    md: 18,
-    lg: 20,
-    xl: 22
-  };
-
-  // Clase para botón de ancho completo
-  const fullWidthClass = fullWidth ? 'button-full-width' : '';
-
-  // Determinar si mostrar icono a la izquierda o derecha
-  const shouldShowIcon = Icon && !isLoading;
-  const iconElement = shouldShowIcon ? (
-    <Icon 
-      size={iconSizeMap[size]} 
-      className={`button-icon ${iconPosition === 'right' ? 'icon-right' : 'icon-left'}`}
-      strokeWidth={2}
-    />
-  ) : null;
-
-  // Contenido del botón
-  const buttonContent = (
-    <>
-      {isLoading ? (
-        <Loader2 
-          className="animate-spin button-loader" 
-          size={iconSizeMap[size]} 
-          strokeWidth={2}
-        />
-      ) : (
-        iconPosition === 'left' && iconElement
-      )}
-      
-      <span className={`button-text ${isLoading ? 'opacity-50' : ''}`}>
-        {children}
-      </span>
-      
-      {!isLoading && iconPosition === 'right' && iconElement}
-    </>
-  );
 
   return (
     <button
-      type={type}
       className={`
         button
         ${variantClasses[variant]}
         ${sizeClasses[size]}
-        ${fullWidthClass}
         ${className}
-        ${disabled ? 'button-disabled' : ''}
       `}
       disabled={disabled || isLoading}
-      aria-busy={isLoading}
-      aria-disabled={disabled}
       {...props}
     >
-      {buttonContent}
-      
+      {isLoading && <Loader2 className="animate-spin" size={20} />}
+      {Icon && !isLoading && <Icon size={20} />}
+      <span className={isLoading ? 'opacity-0' : ''}>
+        {children}
+      </span>
       {isLoading && (
         <span className="sr-only">
           Cargando...
