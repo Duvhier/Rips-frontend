@@ -1143,3 +1143,19 @@
         align-self: center;
     }
 }
+
+/* OPCIÓN 2: BANNER COMPACTO */
+.compact-banner {
+    width: 100%;
+    margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+}
+
+.compact-banner-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    max-height: 540px;
+}

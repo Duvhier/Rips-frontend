@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { Download, FileSpreadsheet, Upload, Loader2, Sparkles, Users, Calendar, Clock, User, Hash, Copy, Check, Zap, Image } from 'lucide-react';
 import ripsLogo from '../assets/rips-logo.png';
+import bannerImg from '../assets/Banner.png';
 import Modal from './Modal';
 import LoadingOverlay from './LoadingOverlay';
 import Button from './Button';
@@ -86,11 +87,9 @@ const ExcelConverter = () => {
   };
 
   const handleDownload = () => {
-    // Importar la librería xlsx dinámicamente
     import('xlsx').then((XLSX) => {
-      // Preparar los datos para Excel
       const worksheetData = [
-        ['FECHA', 'HORA', 'NOMBRE', 'IDENTIDAD', 'EDAD'], // Headers
+        ['FECHA', 'HORA', 'NOMBRE', 'IDENTIDAD', 'EDAD'],
         ...data.map(row => [
           row.fecha,
           row.hora,
@@ -100,32 +99,19 @@ const ExcelConverter = () => {
         ])
       ];
 
-      // Crear el worksheet
       const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
-
-      // Definir el ancho de las columnas
       worksheet['!cols'] = [
-        { wch: 12 },  // FECHA
-        { wch: 8 },   // HORA
-        { wch: 35 },  // NOMBRE
-        { wch: 15 },  // IDENTIDAD
-        { wch: 8 }    // EDAD
+        { wch: 12 },
+        { wch: 8 },
+        { wch: 35 },
+        { wch: 15 },
+        { wch: 8 }
       ];
 
-      // Aplicar estilos a las celdas del encabezado
       const headerStyle = {
-        fill: {
-          fgColor: { rgb: "4472C4" } // Azul similar a la imagen
-        },
-        font: {
-          bold: true,
-          color: { rgb: "FFFFFF" },
-          sz: 11
-        },
-        alignment: {
-          horizontal: "center",
-          vertical: "center"
-        },
+        fill: { fgColor: { rgb: "4472C4" } },
+        font: { bold: true, color: { rgb: "FFFFFF" }, sz: 11 },
+        alignment: { horizontal: "center", vertical: "center" },
         border: {
           top: { style: "thin", color: { rgb: "000000" } },
           bottom: { style: "thin", color: { rgb: "000000" } },
@@ -134,12 +120,8 @@ const ExcelConverter = () => {
         }
       };
 
-      // Aplicar estilos a las celdas de datos
       const cellStyle = {
-        alignment: {
-          horizontal: "left",
-          vertical: "center"
-        },
+        alignment: { horizontal: "left", vertical: "center" },
         border: {
           top: { style: "thin", color: { rgb: "000000" } },
           bottom: { style: "thin", color: { rgb: "000000" } },
@@ -148,37 +130,30 @@ const ExcelConverter = () => {
         }
       };
 
-      // Aplicar estilos a los encabezados (primera fila)
       ['A1', 'B1', 'C1', 'D1', 'E1'].forEach(cell => {
         if (worksheet[cell]) {
           worksheet[cell].s = headerStyle;
         }
       });
 
-      // Aplicar estilos a las celdas de datos y colores alternados
       const range = XLSX.utils.decode_range(worksheet['!ref']);
       for (let row = range.s.r + 1; row <= range.e.r; row++) {
         const isEvenRow = (row - 1) % 2 === 0;
-        const fillColor = isEvenRow ? "FFFFFF" : "F2F2F2"; // Blanco y gris claro alternados
+        const fillColor = isEvenRow ? "FFFFFF" : "F2F2F2";
 
         for (let col = range.s.c; col <= range.e.c; col++) {
           const cellAddress = XLSX.utils.encode_cell({ r: row, c: col });
           if (worksheet[cellAddress]) {
             worksheet[cellAddress].s = {
               ...cellStyle,
-              fill: {
-                fgColor: { rgb: fillColor }
-              }
+              fill: { fgColor: { rgb: fillColor } }
             };
           }
         }
       }
 
-      // Crear el workbook
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, 'Pacientes');
-
-      // Generar el archivo Excel
       XLSX.writeFile(workbook, `agenda_pacientes_${new Date().toISOString().split('T')[0]}.xlsx`);
     });
   };
@@ -250,6 +225,11 @@ const ExcelConverter = () => {
       />
 
       <div className="card">
+        {/* BANNER COMPACTO DENTRO DEL CARD */}
+        <div className="compact-banner">
+          <img src={bannerImg} alt="RIPS Agenda" className="compact-banner-img" />
+        </div>
+
         <div className="header">
           <div className="header-content">
             <img src={ripsLogo} alt="RIPS Logo" className="header-logo" />
