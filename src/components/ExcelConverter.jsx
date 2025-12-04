@@ -224,8 +224,9 @@ const ExcelConverter = () => {
         message={modalState.message}
       />
 
-      <div className="card">
-        {/* BANNER COMPACTO DENTRO DEL CARD */}
+      {/* Contenedor para centrar el contenido sin estilo de card */}
+      <div className="content-container">
+        {/* BANNER COMPACTO */}
         <div className="compact-banner">
           <img src={bannerImg} alt="RIPS Agenda" className="compact-banner-img" />
         </div>
